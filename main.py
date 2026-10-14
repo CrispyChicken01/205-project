@@ -18,17 +18,23 @@ request = youtube.search().list(
 
 response = request.execute()
 
-video_ids = [for item in response.get("items", [])]
-
-
+# video_ids = [item["id"]["videoId"] for item in response.get("items", []) if "videoId" in item.get("id", {})]
+video_ids = []
 for item in response.get("items", []):
-    video_id = item["id"]["videoId"]
-    title = item["snippet"]["title"]
-    channel = item["snippet"]["channelTitle"]
-    publish_time = item["snippet"]["publishedAt"]
+    if "videoId" in item.get("id", {}):
+        video_ids.append(item["id"]["videoId"])
+
+
+
+print(video_ids)
+# for item in response.get("items", []):
+#     video_id = item["id"]["videoId"]
+#     title = item["snippet"]["title"]
+#     channel = item["snippet"]["channelTitle"]
+#     publish_time = item["snippet"]["publishedAt"]
     
-    print(f"Title: {title}")
-    print(f"Channel: {channel}")
-    print(f"URL: https://www.youtube.com/watch?v={video_id}")
-    print(f"Published: {publish_time}\n")
+#     print(f"Title: {title}")
+#     print(f"Channel: {channel}")
+#     print(f"URL: https://www.youtube.com/watch?v={video_id}")
+#     print(f"Published: {publish_time}\n")
 
