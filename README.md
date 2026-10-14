@@ -1,6 +1,6 @@
 # 205-project
 
-## How to work with dot-env
+## How to work with python-dotenv
 
 1. Install python-dotenv
 ```
