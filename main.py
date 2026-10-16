@@ -1,15 +1,19 @@
 import os
 from dotenv import load_dotenv
 from googleapiclient.discovery import build
+import pandas as pd
+
 
 load_dotenv()
 q = "Apple"
 api_key= os.environ.get("yt-api")
+APPLE_CHANNEL_ID = "UCE_M8A5yxnLfW0KghEeajjw"
 
 youtube = build("youtube", "v3", developerKey=api_key)
 
 request = youtube.search().list(
     part="snippet", q=q,
+    channelId=APPLE_CHANNEL_ID,
     maxResults=10,
     type="video",
     order="relevance"
@@ -32,29 +36,41 @@ stat_request = youtube.videos().list(
 stat_response = stat_request.execute()
 
 for item in stat_response.get("items"):
-    # view = int(x["viewCount"])
-    # like = int(x["likeCount"])
-    # comment = int(x["commentCount"])
-    stats = item.get("statistics")
-    print(stats)
+  
+    # stats = item.get("statistics")
+    # print(stats)
+    # print("*"*100)
+    # print(stat_response)
+    pass
 
-    # print(view, like, comment)
-#print(stat_response)
+videos=[]
 for item in stat_response.get("items", []):
-    stats = item.get("statistics")
-    video_id = item["id"]["videoId"]
+    stats = item.get("statistics", {})
+    video_id = item["id"]#["videoId"]
     title = item["snippet"]["title"]
-    view = int(item["viewCount"])
-    likes = int(item["likeCount"])
-    comment = int(item["commentCount"])
+    view = int(stats.get("viewCount", 0))
+    likes = int(stats.get("likeCount", 0))
+    comment = int(stats.get("commentCount", 0))
     channel = item["snippet"]["channelTitle"]
     publish_time = item["snippet"]["publishedAt"]
-    
-    print(f"Title: {title}")
-    print(f"Channel: {channel}")
-    print(f"Views: {view}")
-    print(f"Likes: {likes}")
-    print(f"Comments: {comment}")
-    print(f"URL: https://www.youtube.com/watch?v={video_id}")
-    print(f"Published: {publish_time}\n")
 
+    videos.append({
+        "title":title,
+        "views":view,
+        "likes":likes,
+        "comments":comment,
+        "published":publish_time
+
+    })
+    
+    # print(f"Title: {title}")
+    # print(f"Channel: {channel}")
+    # print(f"Views: {view}")
+    # print(f"Likes: {likes}")
+    # print(f"Comments: {comment}")
+    # print(f"URL: https://www.youtube.com/watch?v={video_id}")
+    # print(f"Published: {publish_time}\n")
+
+df = pd.DataFrame(videos)
+
+print(df)
