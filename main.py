@@ -73,4 +73,21 @@ for item in stat_response.get("items", []):
 
 df = pd.DataFrame(videos)
 
-print(df)
+
+
+total_views = df["views"].sum()
+avg_views = df["views"].mean()
+avg_likes = df["likes"].mean()
+avg_comments = df["comments"].mean()
+print("Total views:", total_views)
+print("avg_views:", round(avg_views, 0))
+print("avg_likes:", round(avg_likes, 0))
+print("avg_comments:", avg_comments)
+# df2 = pd.DataFrame([{"total_views":total_views, "avg_views":round(avg_views, 0)}])
+
+
+
+
+
+
+
