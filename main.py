@@ -86,9 +86,45 @@ print("avg_likes:", round(avg_likes, 0))
 print("avg_comments:", avg_comments)
 # df2 = pd.DataFrame([{"total_views":total_views, "avg_views":round(avg_views, 0)}])
 
+
+# Engagement ratio for the top 10 videos by views
+top10 = df.sort_values("views", ascending=False).head(10).copy()
+
+plt.figure(figsize=(12, 6))
+plt.bar(
+    top10["title"],
+    top10["Engagement ratio"] * 100,
+    color="tab:green"
+)
+
+plt.title("Engagement Ratio of Top 10 Videos")
+plt.xlabel("Video Title")
+plt.ylabel("Engagement Ratio (%)")
+plt.xticks(rotation=45, ha="right")
+plt.tight_layout()
+plt.show()
+
+
+# Likes vs views for all 20 videos
+plt.figure(figsize=(8, 6))
+plt.scatter(
+    df["views"],
+    df["likes"],
+    color="tab:red",
+    alpha=0.75
+)
+plt.xscale("log")
+plt.yscale("log")
+plt.title("Likes vs Views for 20 Videos")
+plt.xlabel("Views")
+plt.ylabel("Likes")
+plt.grid(True, linestyle="--", alpha=0.6)
+plt.tight_layout()
+plt.show()
+
+# 3. time series
 yearly_engagement = df.groupby("year")["Engagement ratio"].mean() * 100
 
-# 3. Plot the time series
 plt.figure(figsize=(10, 5))
 plt.plot(
     yearly_engagement.index,
@@ -100,19 +136,22 @@ plt.plot(
     markersize=6
 )
 
-plt.title("Apple YouTube Engagement Rate Over Time", fontsize=14, pad=12)
+plt.title("Apple's YouTube Engagement Rate Over Time", fontsize=14, pad=12)
 plt.xlabel("Year", fontsize=12)
 plt.ylabel("Avg Engagement Rate (%)", fontsize=12)
 plt.grid(True, linestyle="--", alpha=0.6)
-
-# Ensure x-axis displays integer years
-plt.xticks(yearly_engagement.index.astype(int))
-
 plt.tight_layout()
 plt.show()
+# Ensure x-axis displays integer years
 
 
-print(df)
+
+
+
+
+
+
+# print(df)
 
 top5 = df.sort_values("views", ascending=False).head(5)
 
