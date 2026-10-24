@@ -86,6 +86,26 @@ print("avg_likes:", round(avg_likes, 0))
 print("avg_comments:", avg_comments)
 # df2 = pd.DataFrame([{"total_views":total_views, "avg_views":round(avg_views, 0)}])
 
+top5 = df.sort_values("views", ascending=False).head(5)
+
+# Most-viewed video
+most_viewed = df.loc[df["views"].idxmax()]
+print("\nMost-viewed video:")
+print(most_viewed["title"])
+print("Views:", most_viewed["views"])
+
+
+# Most-liked video
+most_liked = df.loc[df["likes"].idxmax()]
+print("\nMost-liked video:")
+print(most_liked["title"])
+print("Likes:", most_liked["likes"])
+
+
+# Top 5 videos by views
+print(top5[["title", "views"]].to_string(index=False))
+
+
 
 # Engagement ratio for the top 10 videos by views
 top10 = df.sort_values("views", ascending=False).head(10).copy()
@@ -122,7 +142,7 @@ plt.grid(True, linestyle="--", alpha=0.6)
 plt.tight_layout()
 plt.show()
 
-# 3. time series
+# Yearly Trend
 yearly_engagement = df.groupby("year")["Engagement ratio"].mean() * 100
 
 plt.figure(figsize=(10, 5))
@@ -153,7 +173,7 @@ plt.show()
 
 # print(df)
 
-top5 = df.sort_values("views", ascending=False).head(5)
+
 
 
 
