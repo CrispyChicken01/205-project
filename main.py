@@ -35,13 +35,6 @@ stat_request = youtube.videos().list(
 
 stat_response = stat_request.execute()
 
-for item in stat_response.get("items"):
-  
-    # stats = item.get("statistics")
-    # print(stats)
-    # print("*"*100)
-    # print(stat_response)
-    pass
 
 videos=[]
 for item in stat_response.get("items", []):
